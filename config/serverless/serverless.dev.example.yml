@@ -1,0 +1,45 @@
+service: nestjs-typeorm-serverless-demo
+
+plugins:
+    - serverless-offline
+    # - serverless-plugin-monorepo
+    - serverless-webpack
+
+custom:
+    webpack:
+        packager: 'npm'
+        includeModules:
+            forceInclude:
+                - mysql
+
+provider:
+    name: aws
+    stage: dev
+    runtime: nodejs12.x
+    tags:
+        Application:  NestJsTypeOrmServerlessDemo
+    vpc:
+      securityGroupIds:
+        - sg-XXXXX
+      subnetIds:
+        - subnet-XXXXX
+        - subnet-XXXXX
+    environment:
+        TYPEORM_CONNECTION: 'mysql'
+        TYPEORM_DATABASE: ${ssm:/ircraziesttaxi.nestjs-typeorm-serverless-demo.TYPEORM_DATABASE}
+        TYPEORM_HOST: ${ssm:/ircraziesttaxi.nestjs-typeorm-serverless-demo.TYPEORM_HOST}
+        TYPEORM_PASSWORD: ${ssm:/ircraziesttaxi.nestjs-typeorm-serverless-demo.TYPEORM_PASSWORD~true}
+        TYPEORM_PORT: '3306'
+        TYPEORM_USERNAME: ${ssm:/ircraziesttaxi.nestjs-typeorm-serverless-demo.TYPEORM_USERNAME}
+functions:
+    main:
+        handler: src/lambda.handler
+        memorySize: 1024
+        timeout: 900
+        events:
+            - alb:
+                  listenerArn: arn:aws:elasticloadbalancing:us-east-1:XXXXX:listener/app/xxxxx/xxxxx/xxxxx
+                  priority: 21
+                  conditions:
+                      host: xxxxx
+                      path: /*
