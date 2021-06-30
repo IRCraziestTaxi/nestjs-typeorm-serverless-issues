@@ -8,6 +8,7 @@ export const createNestApp = async <
     httpAdapter?: AbstractHttpAdapter,
 ): Promise<T> => {
     const app = await NestFactory.create<T>(AppModule, httpAdapter);
+    app.setGlobalPrefix(process.env.API_GLOBAL_PREFIX);
 
     return app;
 };

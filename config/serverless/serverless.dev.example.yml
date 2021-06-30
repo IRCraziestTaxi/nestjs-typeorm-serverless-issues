@@ -25,6 +25,7 @@ provider:
         - subnet-XXXXX
         - subnet-XXXXX
     environment:
+        API_GLOBAL_PREFIX: '/nestjs-typeorm-serverless-demo/v1'
         TYPEORM_CONNECTION: 'mysql'
         TYPEORM_DATABASE: ${ssm:/ircraziesttaxi.nestjs-typeorm-serverless-demo.TYPEORM_DATABASE}
         TYPEORM_HOST: ${ssm:/ircraziesttaxi.nestjs-typeorm-serverless-demo.TYPEORM_HOST}
@@ -42,4 +43,4 @@ functions:
                   priority: 21
                   conditions:
                       host: xxxxx
-                      path: /*
+                      path: /nestjs-typeorm-serverless-demo/v1/*
