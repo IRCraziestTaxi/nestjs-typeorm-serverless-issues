@@ -11,7 +11,7 @@ import { UserModule } from './user/user.module';
 
 @Module({
     imports: [
-        ConfigModule.forRoot({ load: [appConfig] }),
+        ConfigModule.forRoot({ load: [appConfig], isGlobal: true }),
         TypeOrmModule.forRootAsync({
             inject: [ConfigService],
             // NOTE: This method (aside from surely being terribly inefficient - see class) did not address the issue.
