@@ -18,6 +18,8 @@ provider:
     runtime: nodejs12.x
     tags:
         Application:  NestJsTypeOrmServerlessDemo
+    deploymentBucket:
+        blockPublicAccess: true
     vpc:
       securityGroupIds:
         - sg-XXXXX

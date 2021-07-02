@@ -1,6 +1,49 @@
 # nestjs-typeorm-serverless-issues
 Demonstrates issues using Nest with typeorm and @nestjs/typeorm in a serverless environment.
 
+## Migrations
+Create `ormconfig.env` using `ormconfig.env.example` as a guide.
+
+Note: You can create other files such as `ormconfig.test.env`, `ormconfig.prod.env`, etc., and specify the file to use by appending the following to the below commands:
+
+```
+-- --config ormconfig[.<environment>].env
+```
+
+Omit the leading `--` if already included, i.e. when running the `mig:make` command.
+
+### Create migration
+To create a migration, run the command:
+
+```
+npm run mig:make -- -n MigrationName
+```
+
+No need to compile the app before hand.
+
+### Run migrations
+To run pending migrations, run the command:
+
+```
+npm run mig:run
+```
+
+### Revert migration
+To revert a migration (one at a time), run the command:
+
+```
+npm run mig:revert
+```
+
+Remember to delete the obsolete migration file afterwards as TypeORM does not do so automatically.
+
+## Deploying to Lambda
+To deploy using, for instance, `serverless.dev.yml`, run the command:
+
+```
+npm run sls:deploy -- --conceal --config ./config/serverless/serverless.dev.yml
+```
+
 <p align="center">
   <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo_text.svg" width="320" alt="Nest Logo" /></a>
 </p>

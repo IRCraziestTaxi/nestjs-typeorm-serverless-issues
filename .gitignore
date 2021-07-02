@@ -39,3 +39,4 @@ ormconfig.env
 orgconfig.*.env
 serverless.*.yml
 !serverless.*.example.yml
+.serverless
