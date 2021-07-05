@@ -22,7 +22,12 @@ module.exports = {
         path: path.join(__dirname, '.build'),
         filename: '[name].js',
     },
-    externals: [nodeExternals()],
+    externals: [
+        nodeExternals({
+            // allowlist is necessary when using packages from a github tarball rather than the npm published version.
+            allowlist: ['@nestjs/typeorm'],
+        }),
+    ],
     module: {
         rules: [
             {
