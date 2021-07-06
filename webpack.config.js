@@ -25,6 +25,7 @@ module.exports = {
     externals: [
         nodeExternals({
             // allowlist is necessary when using packages from a github tarball rather than the npm published version.
+            // QUESTION: Why is this? All sls deploy is supposed to do is bundle up existing node_modules, right...?
             allowlist: ['@nestjs/typeorm'],
         }),
     ],

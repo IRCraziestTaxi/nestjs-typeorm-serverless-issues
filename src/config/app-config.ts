@@ -1,6 +1,5 @@
 import { AppConfig } from './interfaces/app-config.interface';
 
-// TODO: environment variable validation at runtime
 export const appConfig = (): AppConfig => ({
     typeorm: {
         options: {
@@ -20,12 +19,6 @@ export const appConfig = (): AppConfig => ({
             migrations: [],
             // NOTE: This by itself does not mitigate AlreadyHasActiveConnectionError in a serverless (specifically AWS Lambda) environment.
             keepConnectionAlive: true,
-            // NOTE: This option was added to see if it can mitigate AlreadyHasActiveConnectionErrors that keepConnectionAlive alone can't mitigate
-            // by using the existing connection even if it is not yet connected (assuming it will eventually be connected).
-            // So far, it fails, resulting in a RepositoryNotFoundError. Perhaps the way inclusion of @nestjs/typeorm
-            // must for some strange reason be forced in webpack.config.js when using a github tarball is to blame?
-            // Unsure at this time.
-            awaitExistingConnection: true,
         },
     },
 });

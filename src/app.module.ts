@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { Connection, createConnection, getConnectionManager } from 'typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { appConfig } from './config/app-config';
@@ -20,6 +21,21 @@ import { UserModule } from './user/user.module';
             useFactory: (config: ConfigService<AppConfig>) => {
                 const typeormConfig = config.get<TypeOrmConfig>('typeorm');
                 return typeormConfig.options;
+            },
+            // Trying this newly added option in my fork of @nestjs/typeorm.
+            connectionFactory: async (options) => {
+                const manager = getConnectionManager();
+                let connection: Connection;
+
+                if (manager.has('default')) {
+                    connection = manager.get('default');
+                }
+
+                if (!connection?.isConnected) {
+                    connection = await createConnection(options);
+                }
+
+                return connection;
             },
         }),
         // App modules.
