@@ -23,6 +23,10 @@ import { UserModule } from './user/user.module';
                 return typeormConfig.options;
             },
             // Trying this newly added option in my fork of @nestjs/typeorm.
+            // NOTE: This fix seems to do the trick.
+            // ALSO NOTE: An additional fix was added to my fork of @nestjs/typeorm
+            // where the keepConnectionAlive check is moved into the retry loop.
+            // That fix alone also appears to have done the trick.
             connectionFactory: async (options) => {
                 const manager = getConnectionManager();
                 let connection: Connection;
